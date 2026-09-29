@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "node-simconnect": "^4.2.0",
+    "razer-chroma-sdk": "^0.0.2"
+  }
+}
