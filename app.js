@@ -27,11 +27,11 @@ let chromaUri = null;
 // [1][6] = 6 = LANDING GEAR
 // [1][9] = 9 = PARKING BRAKE
 
-const GEAR_ROW = 1;
-const GEAR_COL = 6;
+const GEAR_ROW = 0;
+const GEAR_COL = 7;
 
-const BRAKE_ROW = 1;
-const BRAKE_COL = 9;
+const BRAKE_ROW = 0;
+const BRAKE_COL = 10;
 
 
 // ============================================================
@@ -44,7 +44,7 @@ const COLORS = {
 
     GREEN: 0x00FF00,
     RED:   0x0000FF,
-
+    BLUE:  0xFF0000,
     YELLOW: 0x00FFFF,
     WHITE: 0xFFFFFF
 };
@@ -135,6 +135,8 @@ function gearTransitionColor(position) {
 // UPDATE RAZER KEYBOARD
 // ============================================================
 
+
+
 function updateRazerKeyboard() {
 
     if (!chromaUri) {
@@ -152,34 +154,50 @@ function updateRazerKeyboard() {
     // ========================================================
     // PERSISTENT FUNCTION KEYS
     // ========================================================
+    
+    matrix[1][2]  = COLORS.YELLOW; 
+    matrix[1][3]  = COLORS.YELLOW; 
+    matrix[1][4]  = COLORS.YELLOW; 
+    matrix[1][5]  = COLORS.YELLOW; 
+    matrix[1][6]  = COLORS.YELLOW; 
+    matrix[1][7]  = COLORS.YELLOW; 
+    matrix[1][8]  = COLORS.YELLOW; 
+    matrix[1][9]  = COLORS.YELLOW; 
+    matrix[1][10]  = COLORS.YELLOW;  
+    matrix[1][17]  = COLORS.RED; 
 
-    matrix[0][3]  = COLORS.RED;    // F1
-    matrix[0][4]  = COLORS.WHITE;  // F2
-    matrix[0][5]  = COLORS.GREEN;  // F3
-    matrix[0][6]  = COLORS.WHITE;  // F4
-    matrix[0][7]  = COLORS.WHITE;  // F5
-    matrix[0][8]  = COLORS.GREEN;  // F6
-    matrix[0][9]  = COLORS.WHITE;  // F7
-    matrix[0][10]  = COLORS.GREEN;  // F8
-    matrix[0][11] = COLORS.WHITE;  // F9
-    matrix[0][12] = COLORS.GREEN;  // F10
-    matrix[0][13] = COLORS.WHITE;  // F11
+
+    matrix[2][5]  = COLORS.BLUE;    // 
+    matrix[2][8]  = COLORS.BLUE;  // 
+    matrix[2][9]  = COLORS.GREEN;  // 
+    matrix[2][10]  = COLORS.BLUE;  // 
+    matrix[2][12]  = COLORS.BLUE;  //
+    matrix[2][17]  = COLORS.GREEN;  // 
+
+    matrix[3][4]  = COLORS.RED;  // 
+    matrix[3][5]  = COLORS.GREEN; 
+    matrix[3][12]  = COLORS.GREEN; 
+    
+    matrix[4][5]  = COLORS.BLUE;  // 
+    matrix[4][6]  = COLORS.BLUE;  // 
+    matrix[4][7]  = COLORS.GREEN;  // 
+    matrix[4][8]  = COLORS.BLUE;  // 
+    matrix[4][9]  = COLORS.GREEN;  // 
+    matrix[4][10]  = COLORS.GREEN; 
+    matrix[4][12]  = COLORS.BLUE;  // 
 
 
     // ========================================================
     // NUMBER ROW
     // ========================================================
 
-    matrix[1][11] = COLORS.WHITE;  // 0
-    matrix[1][12] = COLORS.GREEN;  // -
-    matrix[1][13] = COLORS.WHITE;  // =
 
 
     // ========================================================
     // AUTOPILOT — KEY 1
     // ========================================================
 
-    matrix[1][2] =
+    matrix[3][2] =
         autopilotMaster
             ? COLORS.GREEN
             : COLORS.WHITE;
