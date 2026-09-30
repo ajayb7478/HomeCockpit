@@ -20,6 +20,15 @@ let chromaUri = null;
 
 
 // ============================================================
+// CHROMA HEARTBEAT
+// ============================================================
+
+const HEARTBEAT_INTERVAL = 1000;
+
+let heartbeatTimer = null;
+
+
+// ============================================================
 // KEY POSITIONS
 // ============================================================
 
@@ -180,9 +189,9 @@ function updateRazerKeyboard() {
     
     matrix[4][5]  = COLORS.BLUE;  // 
     matrix[4][6]  = COLORS.BLUE;  // 
-    matrix[4][7]  = COLORS.GREEN;  // 
-    matrix[4][8]  = COLORS.BLUE;  // 
-    matrix[4][9]  = COLORS.GREEN;  // 
+    matrix[4][7]  = COLORS.BLUE;  // 
+    matrix[4][8]  = COLORS.GREEN;  // 
+    matrix[4][9]  = COLORS.BLUE;  // 
     matrix[4][10]  = COLORS.GREEN; 
     matrix[4][12]  = COLORS.BLUE;  // 
 
@@ -396,6 +405,98 @@ function updateRazerKeyboard() {
 
 
 // ============================================================
+// RAZER CHROMA HEARTBEAT
+// ============================================================
+
+function sendChromaHeartbeat() {
+
+    if (!chromaUri) {
+        return;
+    }
+
+
+    const target =
+        new URL(
+            chromaUri + "/heartbeat"
+        );
+
+
+    const request =
+        http.request(
+
+            {
+                hostname:
+                    target.hostname,
+
+                port:
+                    target.port,
+
+                path:
+                    target.pathname,
+
+                method:
+                    "PUT"
+            },
+
+
+            response => {
+
+                // Drain the response so the socket is released
+
+                response.resume();
+
+
+                if (
+                    response.statusCode < 200 ||
+                    response.statusCode >= 300
+                ) {
+
+                    console.error(
+                        "❌ Razer heartbeat rejected. HTTP status:",
+                        response.statusCode
+                    );
+                }
+            }
+        );
+
+
+    request.on(
+        "error",
+        error => {
+
+            console.error(
+                "❌ Razer heartbeat error:",
+                error.message
+            );
+        }
+    );
+
+
+    request.end();
+}
+
+
+function startChromaHeartbeat() {
+
+    if (heartbeatTimer) {
+        return;
+    }
+
+
+    heartbeatTimer =
+        setInterval(
+            sendChromaHeartbeat,
+            HEARTBEAT_INTERVAL
+        );
+
+
+    console.log(
+        "💓 Razer heartbeat started"
+    );
+}
+
+
+// ============================================================
 // RAZER CHROMA INITIALIZATION
 // ============================================================
 
@@ -511,6 +612,9 @@ function initializeChroma() {
                                 "Chroma URI:",
                                 chromaUri
                             );
+
+
+                            startChromaHeartbeat();
 
 
                             updateRazerKeyboard();
